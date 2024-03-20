@@ -4,33 +4,33 @@ namespace Src\Station17\Practice;
 
 require_once('vendor/autoload.php');
 
-class MailNotification implements NotificationInterface
+// ここにサンプルコードを記述
+class LineNotification implements NotificationInterface
 {
     public function setMessage(string $header, string $message): void
     {
-        $this->setHeader($header);
-        $this->setBody($message);
+        $body = $this->mergeHeaderAndBody($header, $message);
+        $this->setBody($body);
     }
 
     public function sendMessage(): void
     {
-        echo "メールを送信\n";
+        echo "LINEを送信\n";
     }
 
-    private function setHeader(string $header): void
+    private function mergeHeaderAndBody(string $header, string $message): string
     {
-        echo $header."を件名にセット\n";
+        return $header . "\n" . $message;
     }
 
     private function setBody(string $message): void
     {
         echo $message."を本文にセット\n";
     }
-
     public function main(): void
     {
-        $mailNotifier = new MailNotification();
-        $this->sendNotification($mailNotifier);
+        $lineNotifier = new LineNotification();
+        $this->sendNotification($lineNotifier);
     }
 
     public function sendNotification(NotificationInterface $notification): void
@@ -38,6 +38,7 @@ class MailNotification implements NotificationInterface
         $notification->setMessage('新年のご挨拶', 'あけましておめでとうございます');
         $notification->sendMessage();
     }
+
 }
 
-(new MailNotification)->main();
+(new LineNotification)->main();
